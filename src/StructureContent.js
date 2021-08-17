@@ -115,6 +115,7 @@ const StructureContent = ({
       ))}
     </div>
   ));
+
   return (
     <SortableList
       useDragHandle={true}
