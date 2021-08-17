@@ -14,12 +14,10 @@ export default function App() {
   // Functions -------------------
 
   const handleSubmit = data => {
-    console.log(
-      JSON.stringify({
-        ...data,
-        structure: Structure
-      })
-    );
+    console.log({
+      ...data,
+      structure: Structure
+    });
   };
 
   useEffect(() => {
@@ -34,6 +32,7 @@ export default function App() {
         Structure={Structure}
         SetStructure={SetStructure}
         forceUpdate={forceUpdate}
+        editable={true}
       />
       <Button type="primary" htmlType="submit">
         Submit

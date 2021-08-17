@@ -13,7 +13,8 @@ const StructureContent = ({
   Structure,
   RemoveNode,
   SetStructure,
-  ExchangeNode
+  ExchangeNode,
+  editable
 }) => {
   // Variables -------------------
 
@@ -45,18 +46,24 @@ const StructureContent = ({
           </Col>
           <Col flex={'70px'}>
             <Form.Item
-              onChange={e => {
-                ChangeNode(StructureItem.item_key, e.target.value, 'position');
+              onBlur={e => {
+                setTimeout(() => {
+                  ChangeNode(
+                    StructureItem.item_key,
+                    e.target.value,
+                    'position'
+                  );
+                }, 0);
               }}
             >
-              <InputNumber value={parseInt(StructureItem.position)} />
+              <InputNumber defaultValue={parseInt(StructureItem.position)} />
             </Form.Item>
           </Col>
           <Col flex={1}>
             <Row gutter={10} style={{ flexWrap: 'nowrap' }}>
               <Col flex={1}>
                 <Form.Item
-                  onChange={e => {
+                  onBlur={e => {
                     ChangeNode(
                       StructureItem.item_key,
                       e.target.value,
@@ -64,29 +71,31 @@ const StructureContent = ({
                     );
                   }}
                 >
-                  <Input value={StructureItem.detail} />
+                  <Input defaultValue={StructureItem.detail} />
                 </Form.Item>
               </Col>
-              <Col>
-                {(StructureItem.item_key + '').split('-').length < 3 && (
+              {editable && (
+                <Col>
+                  {(StructureItem.item_key + '').split('-').length < 3 && (
+                    <Button
+                      onClick={() => {
+                        AddNode(StructureItem.item_key);
+                      }}
+                    >
+                      <PlusOutlined />
+                    </Button>
+                  )}
+
                   <Button
+                    type="danger"
                     onClick={() => {
-                      AddNode(StructureItem.item_key);
+                      RemoveNode(StructureItem.item_key);
                     }}
                   >
-                    <PlusOutlined />
+                    <MinusOutlined />
                   </Button>
-                )}
-
-                <Button
-                  type="danger"
-                  onClick={() => {
-                    RemoveNode(StructureItem.item_key);
-                  }}
-                >
-                  <MinusOutlined />
-                </Button>
-              </Col>
+                </Col>
+              )}
             </Row>
             {StructureItem.children ? (
               <StructureContent
@@ -96,6 +105,7 @@ const StructureContent = ({
                 RemoveNode={RemoveNode}
                 SetStructure={SetStructure}
                 ExchangeNode={ExchangeNode}
+                editable={editable}
               />
             ) : null}
           </Col>

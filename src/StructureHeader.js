@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Divider } from 'antd';
 
-const StructureHeader = ({ AddNode, MainStructure }) => {
+const StructureHeader = ({ AddNode, editable }) => {
   // Variables -------------------
 
   // Functions -------------------
@@ -9,8 +9,12 @@ const StructureHeader = ({ AddNode, MainStructure }) => {
   // Markup ----------------------
   return (
     <div>
-      <Button onClick={() => AddNode()}>Add</Button>
-      <Button className="ml-24">View Structure</Button>
+      {editable && (
+        <Button className="mr-24" onClick={() => AddNode()}>
+          Add
+        </Button>
+      )}
+      <Button>View Structure</Button>
       <Divider />
     </div>
   );

@@ -7,7 +7,8 @@ const StructureComponent = ({
   Structure = [],
   MainStructure = [],
   SetStructure,
-  forceUpdate
+  forceUpdate,
+  editable
 }) => {
   // Variables -------------------
 
@@ -92,7 +93,7 @@ const StructureComponent = ({
     };
     change(finalData, ItemKey);
     SetStructure(finalData);
-    forceUpdate();
+    // forceUpdate();
   };
 
   const ExchangeNode = (ItemKey, { oldIndex, newIndex }) => {
@@ -113,15 +114,17 @@ const StructureComponent = ({
       });
     };
     loop(finalData, ItemKey);
-    console.log(finalData);
     SetStructure(finalData);
-    forceUpdate();
   };
 
   // Markup ----------------------
   return (
     <div>
-      <StructureHeader AddNode={AddNode} MainStructure={MainStructure} />
+      <StructureHeader
+        AddNode={AddNode}
+        MainStructure={MainStructure}
+        editable={editable}
+      />
       <StructureContent
         AddNode={AddNode}
         Structure={MainStructure}
@@ -129,6 +132,7 @@ const StructureComponent = ({
         ChangeNode={ChangeNode}
         SetStructure={SetStructure}
         ExchangeNode={ExchangeNode}
+        editable={editable}
       />
     </div>
   );
