@@ -41,9 +41,12 @@ const StructureContent = ({
     ({ value: { StructureItem, index } }) => (
       <div className="fields_draggable_wrapper">
         <Row key={index} style={{ flexWrap: 'nowrap' }}>
-          <Col>
-            <DragHandle />
-          </Col>
+          {editable && (
+            <Col>
+              <DragHandle />
+            </Col>
+          )}
+
           <Col flex={'70px'}>
             <Form.Item
               onBlur={e => {
@@ -56,7 +59,10 @@ const StructureContent = ({
                 }, 0);
               }}
             >
-              <InputNumber defaultValue={parseInt(StructureItem.position)} />
+              <InputNumber
+                disabled={!editable}
+                defaultValue={parseInt(StructureItem.position)}
+              />
             </Form.Item>
           </Col>
           <Col flex={1}>
@@ -71,7 +77,10 @@ const StructureContent = ({
                     );
                   }}
                 >
-                  <Input defaultValue={StructureItem.detail} />
+                  <Input
+                    disabled={!editable}
+                    defaultValue={StructureItem.detail}
+                  />
                 </Form.Item>
               </Col>
               {editable && (
