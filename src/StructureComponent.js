@@ -79,18 +79,18 @@ const StructureComponent = ({
 
   const ChangeNode = (ItemKey, Value, key) => {
     let finalData = MainStructure;
-    const remove = (NodeArray, ItemKey) => {
+    const change = (NodeArray, ItemKey) => {
       NodeArray.forEach((x, index) => {
         if (x.item_key === ItemKey) {
           x[key] = Value;
         } else {
           if (x.children && x.children.length > 0) {
-            remove(x.children, ItemKey);
+            change(x.children, ItemKey);
           }
         }
       });
     };
-    remove(finalData, ItemKey);
+    change(finalData, ItemKey);
     SetStructure(finalData);
     forceUpdate();
   };
