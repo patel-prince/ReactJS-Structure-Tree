@@ -1,7 +1,7 @@
 import React from 'react';
 import StructureHeader from './StructureHeader';
 import StructureContent from './StructureContent';
-import debounce from 'lodash/debounce';
+import { arrayMoveImmutable } from 'array-move';
 
 const StructureComponent = ({
   Structure = [],
@@ -12,26 +12,6 @@ const StructureComponent = ({
   // Variables -------------------
 
   // Functions -------------------
-
-  const GetCurrentNode = (NodeArray, ItemKey) => {
-    if (ItemKey) {
-      let Node = null;
-      NodeArray.forEach(x => {
-        if (x.item_key === ItemKey) {
-          Node = x;
-          return false;
-        } else {
-          if (x.children && x.children.length > 0) {
-            Node = GetCurrentNode(x.children, ItemKey);
-          }
-        }
-      });
-      if (ItemKey) {
-        return { Node, NodeArray };
-      }
-    }
-    return null;
-  };
 
   const AddNode = ItemKey => {
     let finalData = MainStructure;
@@ -115,15 +95,40 @@ const StructureComponent = ({
     forceUpdate();
   };
 
+  const ExchangeNode = (ItemKey, { oldIndex, newIndex }) => {
+    let finalData = MainStructure;
+    const loop = (NodeArray, ItemKey, Parent) => {
+      NodeArray.forEach((x, index) => {
+        if (x.item_key === ItemKey) {
+          if (Parent) {
+            Parent.children = arrayMoveImmutable(NodeArray, oldIndex, newIndex);
+          } else {
+            finalData = arrayMoveImmutable(NodeArray, oldIndex, newIndex);
+          }
+        } else {
+          if (x.children && x.children.length > 0) {
+            loop(x.children, ItemKey, x);
+          }
+        }
+      });
+    };
+    loop(finalData, ItemKey);
+    console.log(finalData);
+    SetStructure(finalData);
+    forceUpdate();
+  };
+
   // Markup ----------------------
   return (
     <div>
       <StructureHeader AddNode={AddNode} MainStructure={MainStructure} />
       <StructureContent
         AddNode={AddNode}
-        Structure={Structure}
+        Structure={MainStructure}
         RemoveNode={RemoveNode}
         ChangeNode={ChangeNode}
+        SetStructure={SetStructure}
+        ExchangeNode={ExchangeNode}
       />
     </div>
   );
