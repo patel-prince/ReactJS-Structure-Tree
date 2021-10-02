@@ -21,7 +21,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    SetStructure([]);
+    SetStructure(data.structure);
   }, []);
 
   // Markup ----------------------

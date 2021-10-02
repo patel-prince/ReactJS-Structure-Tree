@@ -21,7 +21,6 @@ const StructureComponent = ({
     let item_key = null;
 
     const add = (NodeArray, ItemKey) => {
-      console.log(NodeArray);
       NodeArray.forEach((x, index) => {
         if (x.item_key === ItemKey) {
           if (!x.children) {
