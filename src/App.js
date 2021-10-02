@@ -13,15 +13,15 @@ export default function App() {
   const forceUpdate = React.useCallback(() => updateState({}), []);
   // Functions -------------------
 
-  const handleSubmit = data => {
+  const handleSubmit = (data) => {
     console.log({
       ...data,
-      structure: Structure
+      structure: Structure,
     });
   };
 
   useEffect(() => {
-    SetStructure(data.structure);
+    SetStructure([]);
   }, []);
 
   // Markup ----------------------

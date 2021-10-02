@@ -8,19 +8,20 @@ const StructureComponent = ({
   MainStructure = [],
   SetStructure,
   forceUpdate,
-  editable
+  editable,
 }) => {
   // Variables -------------------
 
   // Functions -------------------
 
-  const AddNode = ItemKey => {
+  const AddNode = (ItemKey) => {
     let finalData = MainStructure;
     let position = 1;
     let detail = '';
     let item_key = null;
 
     const add = (NodeArray, ItemKey) => {
+      console.log(NodeArray);
       NodeArray.forEach((x, index) => {
         if (x.item_key === ItemKey) {
           if (!x.children) {
@@ -34,7 +35,7 @@ const StructureComponent = ({
             }
           }
           item_key = [x.item_key, x.children.length].join('-');
-          detail = 'This is the dummy text from position - ' + position;
+          detail = 'This - ' + position + '++' + item_key;
           x.children.push({ item_key, position, detail });
         } else {
           if (x.children && x.children.length > 0) {
@@ -48,19 +49,19 @@ const StructureComponent = ({
     } else {
       if (finalData.length > 0) {
         position = parseInt(finalData[finalData.length - 1].position) + 1;
-        item_key = parseInt(finalData[finalData.length - 1].item_key) + 1;
+        item_key = finalData.length + 1;
       } else {
         position = 1;
         item_key = 1;
       }
-      detail = 'This is the dummy text from position - ' + position;
+      detail = 'This - ' + position + '++' + item_key;
       finalData.push({ item_key, position, detail });
     }
     SetStructure(finalData);
     forceUpdate();
   };
 
-  const RemoveNode = ItemKey => {
+  const RemoveNode = (ItemKey) => {
     let finalData = MainStructure;
     const remove = (NodeArray, ItemKey) => {
       NodeArray.forEach((x, index) => {
@@ -115,6 +116,7 @@ const StructureComponent = ({
     };
     loop(finalData, ItemKey);
     SetStructure(finalData);
+    forceUpdate();
   };
 
   // Markup ----------------------
